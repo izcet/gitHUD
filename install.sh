@@ -6,6 +6,12 @@ cp -f gitbar.sh ~/.gitbar/gitbar.sh
 
 chmod 550 ~/.gitbar/bin/{paths,rep}
 
+if ! egrep -q '^. ~/.gitbar/gitbar.sh$' ~/.zshrc; then
+	echo '. ~/.gitbar/gitbar.sh' >> ~/.zshrc
+fi
+
 if ! egrep -q '^PATH=.*\$HOME/\.gitbar/bin.*$' ~/.zshrc; then
 	echo 'PATH="$PATH:$HOME/.gitbar/bin"' >> ~/.zshrc
 fi
+
+. ~/.zshrc
