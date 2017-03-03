@@ -10,10 +10,10 @@ ps1_git() {
 
 	ahead=`echo $st | grep 'ahead of' | sed -E "s:^Your branch is ahead of '[^']+' by ([0-9]+) commits?.:\1:"`
 
-	if ! echo $st | head -n 2 | grep -q 'Your branch'; then
-		echo -n " \e[1m|\e[0m \e[93m⇪ none\e[0m"
-	elif [ "$ahead" ]; then
+	if [ "$ahead" ]; then
 		echo -n " \e[1m|\e[0m \e[91m⇪ $ahead ahead\e[0m"
+	elif ! echo $st | head -n 2 | grep -q 'Your branch is up-to-date'; then
+		echo -n " \e[1m|\e[0m \e[93m⇪ none\e[0m"
 	else
 		echo -n " \e[1m|\e[0m \e[92m⇪ latest\e[0m"
 	fi
