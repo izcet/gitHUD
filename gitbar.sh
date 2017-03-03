@@ -32,7 +32,8 @@ ps1_git() {
 	fi
 
 	if echo $st | grep -q 'Untracked files:'; then
-		echo -n " \e[1m|\e[0m \e[93m◎ track\e[0m "
+		untracked=`gis | egrep -v '^\t(added:|modified|new file:)' | egrep -c '^\t'`
+		echo -n " \e[1m|\e[0m \e[93m◎ $untracked untracked\e[0m "
 	else
 		echo -n " \e[1m|\e[0m \e[92m◉ track\e[0m "
 	fi
