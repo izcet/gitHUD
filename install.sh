@@ -1,17 +1,17 @@
-mkdir -p ~/.gitbar/bin
-cp -f gitbar.sh ~/.gitbar/gitbar.sh
+mkdir -p ~/.gitHUD/bin
+cp -f githud.sh ~/.gitHUD/githud.sh
 
-[ ! -f ~/.gitbar/bin/paths ] && gcc paths.c -o ~/.gitbar/bin/paths
-[ ! -f ~/.gitbar/bin/rep ] && gcc rep.c -o ~/.gitbar/bin/rep
+[ ! -f ~/.gitHUD/bin/paths ] && gcc paths.c -o ~/.gitHUD/bin/paths
+[ ! -f ~/.gitHUD/bin/rep ] && gcc rep.c -o ~/.gitHUD/bin/rep
 
-chmod 550 ~/.gitbar/bin/{paths,rep}
+chmod 550 ~/.gitHUD/bin/{paths,rep}
 
-if ! egrep -q '^. ~/.gitbar/gitbar.sh$' ~/.zshrc; then
-	echo '. ~/.gitbar/gitbar.sh' >> ~/.zshrc
+if ! egrep -q '^. ~/.gitHUD/githud.sh$' ~/.zshrc; then
+	echo '. ~/.gitHUD/githud.sh' >> ~/.zshrc
 fi
 
-if ! egrep -q '^PATH=.*\$HOME/\.gitbar/bin.*$' ~/.zshrc; then
-	echo 'PATH="$PATH:$HOME/.gitbar/bin"' >> ~/.zshrc
+if ! egrep -q '^PATH=.*\$HOME/\.gitHUD/bin.*$' ~/.zshrc; then
+	echo 'PATH="$PATH:$HOME/.gitHUD/bin"' >> ~/.zshrc
 fi
 
 source ~/.zshrc
