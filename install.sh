@@ -14,4 +14,4 @@ if ! egrep -q '^PATH=.*\$HOME/\.gitbar/bin.*$' ~/.zshrc; then
 	echo 'PATH="$PATH:$HOME/.gitbar/bin"' >> ~/.zshrc
 fi
 
-. ~/.zshrc
+source ~/.zshrc
