@@ -8,7 +8,7 @@ ps1_git() {
 	branch=`echo $st | grep 'On branch' | sed -E 's/On branch (.*)$/\1/'`
 	echo -n "\e[1m|\e[0m \e[1;96m⎇  \e[0;96m$branch\e[0m"
 
-	ahead=`echo $st | grep 'ahead of' | sed -E "s:Your branch is ahead of '[^']+' by ([0-9]+) commits.:\1:"`
+	ahead=`echo $st | grep 'ahead of' | sed -E "s:^Your branch is ahead of '[^']+' by ([0-9]+) commits?.:\1:"`
 
 	if [ "$ahead" ]; then
 		echo -n " \e[1m|\e[0m \e[91m⇪ $ahead ahead\e[0m"
