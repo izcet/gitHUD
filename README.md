@@ -1,4 +1,4 @@
-githud
+gitHUD
 ======
 A Heads-Up Display for information about the current Git repository.
 
