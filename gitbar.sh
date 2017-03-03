@@ -32,9 +32,9 @@ ps1_git() {
 	fi
 
 	if echo $st | grep -q 'Untracked files:'; then
-		echo -n " \e[1m|\e[0m \e[93m◉ track\e[0m "
+		echo -n " \e[1m|\e[0m \e[93m◎ track\e[0m "
 	else
-		echo -n " \e[1m|\e[0m \e[92m◎ track\e[0m "
+		echo -n " \e[1m|\e[0m \e[92m◉ track\e[0m "
 	fi
 
 	echo "\e[F\e[E`rep 79 $(echo "\e[C")`\e[1m|\e[0m"
