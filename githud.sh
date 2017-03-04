@@ -6,7 +6,14 @@ ps1_git() {
 	echo "\e[1m$(rep 80 _)\e[0m"
 
 	branch=`echo $st | grep 'On branch' | sed -E 's/On branch (.*)$/\1/'`
+
+	if [ -z "$branch" ]; then
+		tmp=`echo $st | grep 'HEAD detached at' | sed -E 's/^HEAD detached at (.*)$/\1/'`
+		[ "$tmp" ] && branch=\#$tmp || branch='\e[D'
+	fi
 	echo -n "\e[1m|\e[0m \e[1;96m⎇  \e[0;96m$branch\e[0m"
+
+
 
 	ahead=`echo $st | grep 'ahead of' | sed -E "s:^Your branch is ahead of '[^']+' by ([0-9]+) commits?.:\1:"`
 
