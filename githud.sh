@@ -1,51 +1,60 @@
-ps1_git() {
-	st="`git status`"
+hud_git() {
+	st=`git status --porcelain --branch`
 
-	echo $st | grep -q "Not a git repo" && return;
+	branch=''; commit=''; stage=''; track=''
 
-	echo "\e[1m$(rep 80 _)\e[0m"
-
-	branch=`echo $st | grep 'On branch' | sed -E 's/On branch (.*)$/\1/'`
-
-	if [ -z "$branch" ]; then
-		tmp=`echo $st | grep 'HEAD detached at' | sed -E 's/^HEAD detached at (.*)$/\1/'`
-		[ "$tmp" ] && branch=\#$tmp || branch='\e[D'
+	branch=`echo $st | egrep '^##' | cut -d ' ' -f 2- | cut -d . -f 1`
+	if [ "$branch" '==' 'HEAD (no branch)' ]; then
+		branch='\e[91mdetached\e[0m'
 	fi
-	echo -n "\e[1m|\e[0m \e[1;96m⎇  \e[0;96m$branch\e[0m"
 
+	behead=`git rev-list --left-right --count @{u}.. 2>&1`
+	behind=`echo $behead | cut -f 1`
+	ahead=`echo $behead | cut -f 2`
 
+	if echo $behead | egrep -q ^fatal; then
+		commit='none'
+	elif [ "$ahead" -gt 0 -o "$behind" -gt 0 ]; then
+		[ "$behind" -gt 0 ] && commit="<$behind"
+		[ "$ahead" -gt 0 ] && commit+=">$ahead"
+	fi
 
-	ahead=`echo $st | grep 'ahead of' | sed -E "s:^Your branch is ahead of '[^']+' by ([0-9]+) commits?.:\1:"`
-
-	if [ "$ahead" ]; then
-		echo -n " \e[1m|\e[0m \e[91m⇪ $ahead ahead\e[0m"
-	elif ! echo $st | head -n 2 | grep -q 'Your branch is up-to-date'; then
-		echo -n " \e[1m|\e[0m \e[93m⇪ none\e[0m"
+	if [ "$commit" '==' 'none' ]; then
+		commit="\e[93m⇪ none\e[0m"
+	elif [ $commit ]; then
+		commit="\e[91m⇪ $commit\e[0m"
 	else
-		echo -n " \e[1m|\e[0m \e[92m⇪ latest\e[0m"
+		commit="\e[92m⇪ latest\e[0m"
 	fi
 
-	if echo $st | egrep -q '^Changes .*commit.*'; then
-		added=`echo $st | grep -c 'new file:'`
-		modded=`echo $st | grep -c 'modified:'`
-		deleted=`echo $st | grep -c 'deleted:'`
+	stage_a=`echo $st | egrep -c '^A '`
+	stage_d=`echo $st | egrep -c '^ D'`
+	stage_m=`echo $st | egrep -c '^ M'`
+	stage_r=`echo $st | egrep -c '^ R'`
 
-		echo -n " \e[1m|\e[0m \e[93m⇏ stage\e[0m"
-		[ $added -gt 0 ] && echo -n " \e[92m+$added\e[0m"
-		[ $modded -gt 0 ] && echo -n " \e[93m±$modded\e[0m"
-		[ $deleted -gt 0 ] && echo -n " \e[91m-$deleted\e[0m"
+	[ "$stage_a" -gt 0 ] && stage+=" \e[92m+$stage_a\e[0m"
+	[ "$stage_m" -gt 0 ] && stage+=" \e[93m±$stage_m\e[0m"
+	[ "$stage_d" -gt 0 ] && stage+=" \e[91m-$stage_d\e[0m"
+	[ "$stage_r" -gt 0 ] && stage+=" =$stage_r"
+
+	if [ $stage ]; then
+		stage="\e[93m⇏$stage\e[0m"
 	else
-		echo -n " \e[1m|\e[0m \e[92m⇒ stage\e[0m"
+		stage="\e[92m⇒ stage\e[0m"
 	fi
 
-	if echo $st | grep -q 'Untracked files:'; then
-		untracked=`git status | egrep -v '^\t(added:|modified|new file:)' | egrep -c '^\t'`
-		echo -n " \e[1m|\e[0m \e[93m◎ $untracked untracked\e[0m "
+	track=`echo $st | egrep -c '^\?\?'`
+	if [ "$track" -gt 0 ]; then
+		track="\e[93m◎ $track\e[0m"
 	else
-		echo -n " \e[1m|\e[0m \e[92m◉ track\e[0m "
+		track="\e[92m◉ track\e[0m"
 	fi
 
-	echo "\e[F\e[E`rep 79 $(echo "\e[C")`\e[1m|\e[0m"
+	hud="\e[1m|\e[0m \e[1;96m⎇  \e[0;96m$branch\e[0m"
+	hud+=" \e[1m|\e[0m $commit \e[1m|\e[0m $stage \e[1m|\e[0m $track"
+
+	echo '\e[1m'`rep 80 _`'\e[0m'
+	echo $hud'\e[F\e[E'`rep 79 '\e[C'`'\e[1m|\e[0m'
 }
 
 precmd() {
@@ -57,5 +66,5 @@ precmd() {
 		fi
 	done
 
-	[ "$do_git" ] && ps1_git
+	[ "$do_git" ] && hud_git
 }
