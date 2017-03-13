@@ -8,6 +8,9 @@ hud_git() {
 		branch='\e[91mdetached\e[0m'
 	fi
 
+	branch=`echo $branch |\
+		sed "s/Initial commit on /$(echo -en '\e[0m[\e[96mI\e[0m]\e[96m ')/"`
+
 	behead=`git rev-list --left-right --count @{u}.. 2>&1`
 	behind=`echo $behead | cut -f 1`
 	ahead=`echo $behead | cut -f 2`
@@ -38,14 +41,14 @@ hud_git() {
 	[ "$stage_r" -gt 0 ] && stage+=" =$stage_r"
 
 	if [ $stage ]; then
-		stage="\e[93m⇏$stage\e[0m"
+		stage="\e[93m⇏ stage$stage\e[0m"
 	else
 		stage="\e[92m⇒ stage\e[0m"
 	fi
 
 	track=`echo $st | egrep -c '^\?\?'`
 	if [ "$track" -gt 0 ]; then
-		track="\e[93m◎ $track\e[0m"
+		track="\e[93m◎ $track untracked\e[0m"
 	else
 		track="\e[92m◉ track\e[0m"
 	fi
