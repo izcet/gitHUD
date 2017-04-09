@@ -33,7 +33,7 @@ hud_git() {
 	stage_a=`echo $st | egrep -c '^A '`
 	stage_d=`echo $st | egrep -c '^ D'`
 	stage_m=`echo $st | egrep -c '^ M'`
-	stage_r=`echo $st | egrep -c '^ R'`
+	stage_r=`echo $st | egrep -c '^R '`
 
 	[ "$stage_a" -gt 0 ] && stage+=" \e[92m+$stage_a\e[0m"
 	[ "$stage_m" -gt 0 ] && stage+=" \e[93m±$stage_m\e[0m"
