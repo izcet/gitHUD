@@ -2,9 +2,8 @@ mkdir -p ~/.gitHUD/bin
 cp -f githud.sh ~/.gitHUD/githud.sh
 
 [ ! -f ~/.gitHUD/bin/paths ] && gcc paths.c -o ~/.gitHUD/bin/paths
-[ ! -f ~/.gitHUD/bin/rep ] && gcc rep.c -o ~/.gitHUD/bin/rep
 
-chmod 550 ~/.gitHUD/bin/{paths,rep}
+chmod 550 ~/.gitHUD/bin/paths
 
 if ! egrep -q '^. ~/.gitHUD/githud.sh$' ~/.zshrc; then
 	echo '. ~/.gitHUD/githud.sh' >> ~/.zshrc
