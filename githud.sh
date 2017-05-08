@@ -18,8 +18,8 @@ hud_git() {
 	if echo $behead | egrep -q ^fatal; then
 		commit='none'
 	elif [ "$ahead" -gt 0 -o "$behind" -gt 0 ]; then
-		[ "$behind" -gt 0 ] && commit="<$behind"
-		[ "$ahead" -gt 0 ] && commit+=">$ahead"
+		[ "$behind" -gt 0 ] && commit="behind $behind"
+		[ "$ahead" -gt 0 ] && commit+="ahead $ahead"
 	fi
 
 	if [ "$commit" '==' 'none' ]; then
