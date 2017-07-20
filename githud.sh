@@ -56,7 +56,7 @@ hud_git() {
 	hud="$branch"
 	hud+=" $commit $stage $track"
 
-	echo "]2; $hud "
+	echo "]2; $hud \c"
 }
 
 precmd() {
