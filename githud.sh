@@ -50,7 +50,7 @@ hud_git() {
 	if [ "$track" -gt 0 ]; then
 		track="◎ $track untracked"
 	else
-		track="◉ trackm"
+		track="◉ track"
 	fi
 
 	hud="$branch"
