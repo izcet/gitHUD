@@ -1,6 +1,14 @@
-#### Updates:
-- Prints to window title rather than inline after every command, to clear up the terminal clutter.
-- TODO: Write a script to update others' installations to this installation, if this won't overwrite by default with the install.sh
+### A minor revision of the gitHud script output to declutter the terminal.
+- Prints to the window title rather than after every command execution.
+- Running `install.sh` (unmodified) will update the main script to use this version.
+
+###### Original:
+![iwordes/gitHUD](https://raw.githubusercontent.com/izcet/gitHUD/master/old.png)
+<br>
+
+###### Update:
+![izcet/gitHUD](https://raw.githubusercontent.com/izcet/gitHUD/master/new.png)
+<br>
 
 gitHUD
 ======
