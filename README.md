@@ -1,5 +1,6 @@
 #### Updates:
-Prints to window title rather than inline after every command, to clear up the terminal clutter.
+- Prints to window title rather than inline after every command, to clear up the terminal clutter.
+- TODO: Write a script to update others' installations to this installation, if this won't overwrite by default with the install.sh
 
 gitHUD
 ======
