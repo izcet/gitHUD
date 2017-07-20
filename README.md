@@ -1,3 +1,6 @@
+#### Updates:
+Prints to window title rather than inline after every command, to clear up the terminal clutter.
+
 gitHUD
 ======
 A Heads-Up Display for information about the current Git repository.
